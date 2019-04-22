@@ -53,6 +53,8 @@ public class Main extends JFrame implements ActionListener {
     JLabel sponsor_company = new JLabel("Enter sponor company");
     JTextField enter_sponsor_company = new JTextField();
     JFrame events_frame = new JFrame();
+    
+    JButton back=new JButton();
 
     JFrame sponsor_frame = new JFrame();
     JLabel display_vendor_name = new JLabel("Vendor name");
@@ -138,6 +140,7 @@ public class Main extends JFrame implements ActionListener {
     JPanel participant_choice_panel = new JPanel(new FlowLayout());
 
     public Main() throws SQLException {
+        events_frame.setLayout(new GridLayout(1, 2));
         
         vendor_panel.setBorder(BorderFactory.createLineBorder(new Color(17,12,17), 10));
         
@@ -311,6 +314,44 @@ public class Main extends JFrame implements ActionListener {
             public void windowDeactivated(WindowEvent we) {
             }
         });
+         
+         events_frame.addWindowListener(new WindowListener() {
+            @Override
+            public void windowOpened(WindowEvent we) {
+            }
+
+            @Override
+            public void windowClosing(WindowEvent we) {
+                events_frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                events_frame.getContentPane().removeAll();
+                
+                
+              
+            }
+
+            @Override
+            public void windowClosed(WindowEvent we) {
+            }
+
+            @Override
+            public void windowIconified(WindowEvent we) {
+            }
+
+            @Override
+            public void windowDeiconified(WindowEvent we) {
+            }
+
+            @Override
+            public void windowActivated(WindowEvent we) {
+            }
+
+            @Override
+            public void windowDeactivated(WindowEvent we) {
+            }
+        });
+         
+         
+         
         
         
         
@@ -324,7 +365,7 @@ public class Main extends JFrame implements ActionListener {
 
         Color clr1 = new Color(245, 255, 250);
         events_frame.setVisible(false);
-        events_frame.setBackground(clr1);
+        events_frame.setBackground(Color.WHITE);
         events_frame.setSize(new Dimension(1200, 800));
 
         class danceoffpicture extends JPanel {
@@ -673,7 +714,7 @@ public class Main extends JFrame implements ActionListener {
         
         JPanel vendor_picture_panel=new JPanel();
         JPanel vendor_grid_panel=new JPanel(new GridLayout(2,1));
-        vendor_grid_panel.add(new pictureobj("C:\\Users\\Utkarsh\\Desktop\\vendor.jpg",400 ,Color.WHITE));
+        vendor_grid_panel.add(new pictureobj("C:\\Users\\Utkarsh\\Desktop\\vendor.jpg",500 ,Color.WHITE));
         vendor_grid_panel.setBackground(Color.WHITE);
         
         JPanel vendor_info_panel1=new JPanel();
@@ -722,6 +763,8 @@ public class Main extends JFrame implements ActionListener {
         
         
         
+        
+        
              
                 
                 JPanel vendor_grid_panel2=new JPanel(new GridLayout(6,1));
@@ -740,6 +783,8 @@ public class Main extends JFrame implements ActionListener {
                 vendor_small_panel4.setBackground(new Color(17,12,17));
                 vendor_small_panel5.setBackground(new Color(17,12,17));
 
+                
+                
                 
                 
 
@@ -934,6 +979,8 @@ public class Main extends JFrame implements ActionListener {
                     String query1 = "insert into vendor values(" + "'" + name + "'" + "," + "'" + stallname + "'" + "," + "'" + no_of_stalls + "'" + "," + "'" + closingtime + "'" + "," + "'" + openingtime + "'" + "," + "'" + username + "'" + "," + "'" + password + "')";
                     int count1 = stmt2.executeUpdate(query1);
                     System.out.println(count1);
+                    
+                    JOptionPane.showMessageDialog(null,"You are now registered as a vendor");
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -971,6 +1018,15 @@ public class Main extends JFrame implements ActionListener {
               
             }
         });
+        back.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                events_frame.getContentPane().removeAll();
+                events_frame.dispose();
+                
+                
+            }
+        });
         
         
         
@@ -999,6 +1055,8 @@ public class Main extends JFrame implements ActionListener {
 
                     Statement stmt2 = conn.createStatement();
                     int count1 = stmt2.executeUpdate(query1);
+                    
+                    JOptionPane.showMessageDialog(null,"You are now registered as a participant");
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -1006,6 +1064,70 @@ public class Main extends JFrame implements ActionListener {
 
             }
         });
+        
+        
+        sponsor_delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                
+                try {
+                    String username=username_field.getText();
+                    Statement stmt=conn.createStatement();
+                    String query="delete from sponsor where username ="+"'"+username+"'";
+                    String query2="delete from user where username="+"'"+username+"'";
+                    int count=stmt.executeUpdate(query);
+                    int count1=stmt.executeUpdate(query2);
+                    System.out.println(count);
+                    
+                    sponsor_frame.dispose();
+                    
+                    
+                    JOptionPane.showMessageDialog(null,"Your account is now deleted");
+                    
+                    
+                    
+                    
+                    
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                
+                
+                
+            }
+        });
+        
+        
+        
+        vendor_delete.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                 try {
+                    String username=username_field.getText();
+                    Statement stmt=conn.createStatement();
+                    String query="delete from vendor where username ="+"'"+username+"'";
+                    String query2="delete from user where username="+"'"+username+"'";
+                    int count=stmt.executeUpdate(query);
+                    int count1=stmt.executeUpdate(query2);
+                    System.out.println(count);
+                    vendor_frame.dispose();
+                    
+                    
+                    
+                    JOptionPane.showMessageDialog(null,"Your account is now deleted");
+                    
+                    
+                    
+                    
+                } catch (SQLException ex) {
+                    Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        
+        
 
         participant_search.addActionListener(new ActionListener() {
             @Override
@@ -1016,16 +1138,17 @@ public class Main extends JFrame implements ActionListener {
                 JTextArea information_area = new JTextArea();
                 information_area.setFont(new Font("Serif", Font.PLAIN, 25));
                 JTextArea info = new JTextArea();
-                info.setBackground(clr1);
-                information_area.setBackground(clr1);
+                ImageIcon back_icon=new ImageIcon("C:\\Users\\Utkarsh\\Desktop\\back.png");
+                back.setIcon(back_icon);
+                
 
                 String time = "";
                 String type = "";
                 String image = "";
                 String information = "";
-                JPanel events_frame_panel = new JPanel(new GridLayout(1, 2));
-                events_frame_panel.setBackground(clr1);
-                temp.setBackground(clr1);
+                JPanel temp2=new JPanel(new GridLayout(2,1));
+            
+                temp.setBackground(Color.white);
 
                 {
                     try {
@@ -1056,7 +1179,22 @@ public class Main extends JFrame implements ActionListener {
                             System.out.println(image);
 
                         }
-                        events_frame_panel.add(new pictureobj(image, 400, clr1));
+                        temp.add(new pictureobj(image, 400, Color.white));
+                        JPanel back_button_panel=new JPanel(new FlowLayout());
+                        back_button_panel.setBackground(Color.WHITE);
+             back.setBackground(Color.WHITE);
+             back.setBorder(BorderFactory.createLineBorder(Color.BLACK,5));
+//                        back.setForeground(Color.WHITE);
+                        back.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                        back.setOpaque(true);
+                        
+                        back_button_panel.add(back);
+                        JPanel empty_panel=new JPanel();
+                        empty_panel.setBackground(Color.WHITE);
+                        
+                       
+                        temp.add(back_button_panel);
+                        
 
                         info.setText("Name Of the Event:  " + name + "\n" + "Location:  " + location + "\n" + "Time:  " + time + "\n" + "Type:  " + type);
                         info.setFont(new Font("Serif", Font.BOLD, 35));
@@ -1070,11 +1208,20 @@ public class Main extends JFrame implements ActionListener {
                         information_area.setBorder(javax.swing.BorderFactory.createEmptyBorder());
                         information_area.setBorder(BorderFactory.createMatteBorder(0, 0, 0, 0, Color.GRAY));
 
-                        temp.add(info);
-                        temp.add(information_area);
+                        temp2.add(info);
+                        temp2.add(information_area);
+                        
+                        information_area.setBackground(new Color(16,12,17));
+                        information_area.setForeground(Color.WHITE);
+                        info.setBackground(new Color(17,12,17));
+                        info.setForeground(Color.WHITE);
+                        info.setBorder(BorderFactory.createLineBorder(new Color(17,12,17),10));
+                        information_area.setBorder(BorderFactory.createLineBorder(new Color(17,12,17), 10));
 
-                        events_frame_panel.add(temp);
-                        events_frame.add(events_frame_panel);
+                        events_frame.add(temp);
+                        events_frame.add(temp2);
+                        
+                        
 
                     } catch (SQLException ex) {
                         Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -1109,6 +1256,7 @@ public class Main extends JFrame implements ActionListener {
 
                     String query1 = "insert into sponsor values(" + "'" + sponsorname + "'" + "," + amount + "," + "'" + sponsorcompany + "'" + "," + "'" + username + "'" + "," + "'" + password + "')";
                     int count1 = stmt2.executeUpdate(query1);
+                    JOptionPane.showMessageDialog(null,"you are now registered as a Sponsor");
 
                 } catch (SQLException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
@@ -1172,6 +1320,7 @@ public class Main extends JFrame implements ActionListener {
         login_bt.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+               boolean flag=true;
                 try {
                     String username = username_field.getText();
                     String password = password_field.getText();
@@ -1191,6 +1340,10 @@ public class Main extends JFrame implements ActionListener {
                         }
 
                     }
+                    if(type.equals(""))
+                        flag=false;
+                    if(flag)
+                    {
                     Statement stmt2 = conn.createStatement();
                     String query1 = "select * from " + type;
                     System.out.println(query1);
@@ -1254,6 +1407,11 @@ public class Main extends JFrame implements ActionListener {
                     if (z == 2) {
                         vendor_frame.setVisible(true);
                     }
+                    }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null,"Looks like something is wrong");
+                    }
                 } catch (SQLException ex) {
                     Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -1284,6 +1442,7 @@ public class Main extends JFrame implements ActionListener {
         JPanel panel6 = new JPanel(new FlowLayout());
         JPanel panel7 = new JPanel(new FlowLayout());
         JPanel panel8 = new JPanel(new GridLayout(5, 1));
+        
 
         
         
@@ -1362,6 +1521,16 @@ public class Main extends JFrame implements ActionListener {
                 age.setForeground(Color.WHITE);
         college.setForeground(Color.WHITE);
         event.setForeground(Color.WHITE);
+                Studentname.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                       age.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                              college.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                 event.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                 
+                         
+
+
+
+
 
         temp10.add(Studentname);
         temp10.add(enter_student_name);
@@ -1384,10 +1553,25 @@ public class Main extends JFrame implements ActionListener {
         sponsor_regnow.setBackground(new Color(17,12,17));
         
         
+        
+       
+        
+        
 
         JPanel temp14 = new JPanel(new FlowLayout());
         JPanel temp15 = new JPanel(new FlowLayout());
         temp14.add(vendorName);
+         vendorName.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+         stallName.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+         enter_no_of_stalls.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+         enter_closingtime.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+         enter_openingtime.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+
+
+
+
+
+        
         temp14.add(enter_vendor_name);
         temp15.add(stallName);
         stallName.setForeground(Color.WHITE);
@@ -1456,6 +1640,21 @@ public class Main extends JFrame implements ActionListener {
 
         panel16.add(sponsorName);
         sponsorName.setForeground(Color.WHITE);
+                sponsorName.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                      sponsor_company.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                      amount.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                            enter_username.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                    enter_password.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                            participant.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                                    vendor.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+                                                            sponsor.setFont(new Font("Arial Rounded MT",Font.PLAIN,30));
+
+
+
+
+
+
+
         sponsor_company.setForeground(Color.WHITE);
         amount.setForeground(Color.WHITE);
         
@@ -1471,6 +1670,7 @@ public class Main extends JFrame implements ActionListener {
         panel16.setBackground(new Color(17,12,17));
         temp19.setBackground(new Color(17,12,17));
         panel17.setBackground(new Color(17,12,17));
+
         
         sponsor_panel.add(panel16);
         sponsor_panel.add(temp19);
@@ -1481,6 +1681,8 @@ public class Main extends JFrame implements ActionListener {
         sponsor_panel.add(panel_containing_sponsor_regbt);
 
     }
+    
+   
 
     public static void main(String[] args) throws SQLException {
         try {
@@ -1504,6 +1706,8 @@ public class Main extends JFrame implements ActionListener {
         ob.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
+    
+    
 
     @Override
     public void actionPerformed(ActionEvent e) {
